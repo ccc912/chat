@@ -2439,11 +2439,6 @@ function showModal(modalElement, focusElement = null) {
                             <span>自定义主题配色</span>
                         </label>
                         <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 12px;border:1px solid var(--border-color);border-radius:12px;background:var(--primary-bg);font-size:13px;color:var(--text-primary);transition:border-color 0.2s;">
-                            <input type="checkbox" id="_exp_diary" style="accent-color:var(--accent-color);width:15px;height:15px;">
-                            <i class="fas fa-book-open" style="color:var(--accent-color);width:16px;text-align:center;"></i>
-                            <span>陪伴日记 <span style="font-size:11px;color:var(--text-secondary);">(${_diaryForExport.length} 条)</span></span>
-                        </label>
-                        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 12px;border:1px solid var(--border-color);border-radius:12px;background:var(--primary-bg);font-size:13px;color:var(--text-primary);transition:border-color 0.2s;">
                             <input type="checkbox" id="_exp_mood" style="accent-color:var(--accent-color);width:15px;height:15px;">
                             <i class="fas fa-face-smile" style="color:var(--accent-color);width:16px;text-align:center;"></i>
                             <span>心情手账 <span style="font-size:11px;color:var(--text-secondary);">(${Object.keys(_moodForExport || {}).length} 天)</span></span>
@@ -2699,7 +2694,6 @@ function showModal(modalElement, focusElement = null) {
                                 ${makeRow('_imp_replies', 'fas fa-reply', '字卡回复库', '', hasReplies, false)}
                                 ${makeRow('_imp_ann', 'fas fa-calendar-heart', '纪念日 / 倒计时', '', hasAnn, false)}
                                 ${makeRow('_imp_themes', 'fas fa-palette', '自定义主题配色', '', hasThemes, false)}
-                                ${makeRow('_imp_diary', 'fas fa-book-open', '陪伴日记', hasDiary ? `(${importedData.companionDiary.length} 条)` : '', hasDiary, false)}
                                 ${makeRow('_imp_mood', 'fas fa-face-smile', '心情手账', hasMood ? `(${Object.keys(importedData.moodCalendar).length} 天)` : '', hasMood, false)}
                             </div>
                             <div style="display:flex;gap:10px;">

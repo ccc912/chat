@@ -372,12 +372,6 @@ const tourSteps = [
         position: 'bottom'
     },
     {
-        element: '#companion-btn',
-        title: "🕯️ 陪伴模式",
-        content: "点击这里邀请对方陪伴。可以选择一起学习、工作、运动或休息，对方会陪在你身边，偶尔和你说几句话。Ta 也同样会邀请你哦～",
-        position: 'bottom'
-    },
-    {
         element: '#daily-greeting-btn',
         title: "📰 今日公告",
         content: "点击这里查看今日公告，每天会有一张专属的早安卡片，记录对方今日的心情和状态。",
@@ -399,7 +393,7 @@ const tourSteps = [
     {
         element: '#appearance-settings',
         title: "🎨 外观设置",
-        content: "外观设置里可以调整：<br>• 切换不同的颜色主题<br>• 更换聊天背景图和陪伴模式背景<br>• 调整字体大小和气泡样式<br>• 设置聊天界面的头像显示方式",
+        content: "外观设置里可以调整：<br>• 切换不同的颜色主题<br>• 更换聊天背景图<br>• 调整字体大小和气泡样式<br>• 设置聊天界面的头像显示方式",
         position: 'bottom',
         onBefore: () => { if (isTourActive) showModal(DOMElements.settingsModal.modal); }
     },
@@ -412,7 +406,7 @@ const tourSteps = [
     {
         element: '#advanced-settings',
         title: "🚀 高级功能 — 必看！",
-        content: "高级功能是整个 app 最丰富的板块，里面有：<br>• <b>自定义回复</b>：让对方说你想听的话<br>• <b>消息统计</b>：查看你们的聊天数据<br>• <b>陪伴日记</b>：记录每次陪伴的时光<br>• <b>悬浮音乐播放器</b>：与 Ta 一起听喜欢的音乐<br>• <b>运势·占卜</b>：每日运势<br>• <b>抉择</b>：转盘 / 硬币帮你做决定<br>• <b>经期记录</b>：记录周期、标注经期日，到点了对方还会主动关心你<br>• <b>问卷</b>：你可以问 Ta 问题，Ta 也会主动来问你，答案随时能翻出来看",
+        content: "高级功能是整个 app 最丰富的板块，里面有：<br>• <b>自定义回复</b>：让对方说你想听的话<br>• <b>消息统计</b>：查看你们的聊天数据<br>• <b>悬浮音乐播放器</b>：与 Ta 一起听喜欢的音乐<br>• <b>运势·占卜</b>：每日运势<br>• <b>抉择</b>：转盘 / 硬币帮你做决定<br>• <b>经期记录</b>：记录周期、标注经期日，到点了对方还会主动关心你<br>• <b>问卷</b>：你可以问 Ta 问题，Ta 也会主动来问你，答案随时能翻出来看",
         position: 'bottom'
     },
     {
