@@ -882,36 +882,26 @@
 
     function scheduleRandomInvite() {
         clearTimeout(_randomInviteTimer);
-        // 15~60 分钟随机
+        // 15~60 分钟随机检查一次；每次检查有 15% 概率触发视频来电。
         const ms = (15 + Math.random() * 45) * 60 * 1000;
         _randomInviteTimer = setTimeout(() => {
-            // 25% 概率真正发起
-            if (Math.random() < 0.25) {
+            if (Math.random() < 0.15) {
                 triggerRandomInteraction();
             }
             scheduleRandomInvite(); // 递归继续下一轮
         }, ms);
-        console.log(`[companion] 下次互动检查在 ${Math.round(ms/60000)} 分钟后`);
+        console.log(`[call] 下次随机来电检查在 ${Math.round(ms/60000)} 分钟后`);
     }
 
-    // 统一来电调度：50% 触发陪伴邀请 / 50% 触发视频通话
+    // 随机调度只保留视频来电，不再触发随机陪伴邀请。
     function triggerRandomInteraction() {
-        const isCompanionActive = document.getElementById('companion-page')?.classList.contains('active');
         const isCallActive = document.getElementById('call-window')?.classList.contains('visible')
             || document.getElementById('call-incoming-overlay')?.classList.contains('visible')
             || document.getElementById('call-mini-pill')?.classList.contains('visible');
-        // 陪伴中或通话中，什么都不触发
-        if (isCompanionActive || isCallActive) return;
+        if (isCallActive) return;
 
-        // 如果视频通话模块未启用，强制走陪伴邀请
         const callAvailable = window._callModule && window._callModule.isEnabled();
-        if (!callAvailable || Math.random() < 0.5) {
-            // 50% (或视频不可用时 100%) → 陪伴邀请
-            showIncomingCompanion();
-        } else {
-            // 50% → 视频通话
-            window._callModule.showIncomingCall();
-        }
+        if (callAvailable) window._callModule.showIncomingCall();
     }
 
     function stopRandomInvite() {
@@ -4263,7 +4253,7 @@
             bindMgrEvents();
             console.log('[companion] 模块加载完成（数据将在首次使用时加载）');
 
-            // 启动梦角主动邀请的随机定时器（15~60 分钟随机检查，25% 概率触发）
+            // 启动随机视频来电定时器（15~60 分钟随机检查，每次检查 15% 概率触发）
             scheduleRandomInvite();
         } catch (e) {
             console.error('[companion] 初始化失败，已跳过陪伴模块以保护主功能', e);

@@ -794,7 +794,7 @@ html:not([data-theme="dark"])[data-color-theme="black-white"] .message-sent{
     }
 
     function scheduleRandomCall() {
-        // v2.5: 随机来电已合并到 companion.js 统一调度（50% 陪伴邀请 / 50% 通话）
+        // 随机视频来电由 companion.js 中保留的轻量定时调度触发（已移除随机陪伴邀请）
         // 这里禁用,避免重复触发
         clearTimeout(S.randomCallTimer);
         return;
@@ -1026,7 +1026,7 @@ html:not([data-theme="dark"])[data-color-theme="black-white"] .message-sent{
 
     init();
 
-    // v2.5: 暴露给 companion.js 用于统一来电调度
+    // 暴露给随机视频来电调度使用
     window._callModule = {
         showIncomingCall: () => {
             if (S.enabled && !S.active) showIncomingCall();
