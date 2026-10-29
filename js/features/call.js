@@ -794,10 +794,19 @@ html:not([data-theme="dark"])[data-color-theme="black-white"] .message-sent{
     }
 
     function scheduleRandomCall() {
-        // 随机视频来电由 companion.js 中保留的轻量定时调度触发（已移除随机陪伴邀请）
-        // 这里禁用,避免重复触发
         clearTimeout(S.randomCallTimer);
-        return;
+        if (!S.enabled) return;
+        // 每隔 15–60 分钟检查一次；每次有效检查有 15% 概率触发随机来电。
+        const ms = (15 + Math.random() * 45) * 60 * 1000;
+        S.randomCallTimer = setTimeout(() => {
+            const callWindowOpen = document.getElementById('call-window')?.classList.contains('visible');
+            const incomingOpen = document.getElementById('call-incoming-overlay')?.classList.contains('visible');
+            const miniPillOpen = document.getElementById('call-mini-pill')?.classList.contains('visible');
+            const busy = S.active || callWindowOpen || incomingOpen || miniPillOpen;
+            if (!busy && S.enabled && Math.random() < 0.15) showIncomingCall();
+            scheduleRandomCall();
+        }, ms);
+        console.log(`[call] 下次随机来电检查在 ${Math.round(ms / 60000)} 分钟后`);
     }
 
     function minimizeWindow() {
@@ -1026,7 +1035,7 @@ html:not([data-theme="dark"])[data-color-theme="black-white"] .message-sent{
 
     init();
 
-    // 暴露给随机视频来电调度使用
+    // 暴露给随机来电及通话恢复逻辑使用
     window._callModule = {
         showIncomingCall: () => {
             if (S.enabled && !S.active) showIncomingCall();
