@@ -22,7 +22,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/companion.css">
     <link rel="stylesheet" href="css/cinema.css">
     <link rel="stylesheet" href="css/period.css">
     <link rel="stylesheet" href="css/music-local.css">
@@ -250,8 +249,7 @@ html[data-theme="dark"] #cs-transition-overlay{background:radial-gradient(circle
                     <i class="fas fa-envelope-open-text"></i>
                     <span id="env-entry-badge" style="display:none;position:absolute;top:3px;right:3px;width:7px;height:7px;background:var(--accent-color);border-radius:50%;border:1.5px solid var(--primary-bg);pointer-events:none;"></span>
                 </button>
-                <button id="companion-btn" class="action-btn" title="陪伴"><i class="fas fa-hand-holding-heart"></i></button>
-                <button id="daily-greeting-btn" class="action-btn" title="今日公告" onclick="reopenDailyGreeting()"><i class="fas fa-newspaper" style="font-size:16px;"></i></button>
+<button id="daily-greeting-btn" class="action-btn" title="今日公告" onclick="reopenDailyGreeting()"><i class="fas fa-newspaper" style="font-size:16px;"></i></button>
                 <button id="moments-header-btn" class="action-btn" title="情侣空间" onclick="openMomentsWithTransition()" style="position:relative;">
                     <i class="ti ti-home-heart" style="font-size:19px;"></i>
                     <span id="moments-header-badge" style="display:none;position:absolute;top:3px;right:3px;width:7px;height:7px;background:var(--accent-color);border-radius:50%;border:1.5px solid var(--primary-bg);pointer-events:none;"></span>
@@ -1206,167 +1204,7 @@ html[data-theme="dark"] #cs-transition-overlay{background:radial-gradient(circle
     </div>
 
 
-    <!-- ========== 陪伴功能弹窗 ========== -->
-
-    <!-- ① 陪伴模式选择 -->
-    <div class="companion-modal" id="companion-modal">
-        <div class="modal-content companion-modal-content">
-            <div class="modal-title">
-                <i class="fas fa-hand-holding-heart"></i><span>陪伴</span>
-            </div>
-            <div class="companion-grid">
-                <div class="companion-mode-card" data-mode="study">
-                    <i class="fas fa-book-open"></i><span>一起学习</span>
-                </div>
-                <div class="companion-mode-card" data-mode="work">
-                    <i class="fas fa-laptop-code"></i><span>一起工作</span>
-                </div>
-                <div class="companion-mode-card" data-mode="exercise">
-                    <i class="fas fa-person-running"></i><span>一起运动</span>
-                </div>
-                <div class="companion-mode-card" data-mode="sleep">
-                    <i class="fas fa-moon"></i><span>一起睡觉</span>
-                </div>
-            </div>
-            <div class="modal-buttons">
-                <button class="modal-btn modal-btn-secondary" id="companion-modal-close">关闭</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ② 首次初始化弹窗 -->
-    <div class="companion-modal" id="setup-modal">
-        <div class="modal-content companion-setup-content">
-            <div class="modal-title">
-                <i id="setup-modal-icon" class="fas fa-book-open"></i>
-                <span id="setup-modal-title">陪我学习</span>
-            </div>
-            <div id="setup-step-bg">
-                <p class="companion-setup-desc">请上传一张梦角的图片或视频，作为陪伴背景 ✦</p>
-                <div id="setup-bg-preview" class="companion-bg-preview" style="display:none;"></div>
-                <div id="setup-bg-trigger" class="companion-upload-zone">
-                    <i class="fas fa-cloud-arrow-up"></i>
-                    <span>点击上传图片 / 视频</span>
-                    <small>支持 jpg · png · gif · mp4 · mov，建议 ≤ 100MB</small>
-                </div>
-                <input type="file" id="setup-bg-input" accept="image/*,video/*" style="display:none">
-                <div class="companion-setup-btns">
-                    <button class="modal-btn modal-btn-secondary" id="setup-btn-cancel">取消</button>
-                    <button class="modal-btn modal-btn-primary" id="setup-btn-next" style="display:none">
-                        下一步 <i class="fas fa-arrow-right"></i>
-                    </button>
-                </div>
-            </div>
-            <div id="setup-step-voice" style="display:none;">
-                <p class="companion-setup-desc">上传梦角的语音，点击屏幕时会随机播放 ✦</p>
-                <div id="setup-voice-trigger" class="companion-upload-zone companion-upload-zone--small">
-                    <i class="fas fa-microphone"></i>
-                    <span>点击上传语音</span>
-                    <small>支持 mp3 · m4a · wav，可多选</small>
-                </div>
-                <input type="file" id="setup-voice-input" accept="audio/*" multiple style="display:none">
-                <div id="setup-voice-list" class="companion-voice-list"></div>
-                <div class="companion-setup-btns">
-                    <button class="modal-btn modal-btn-secondary" id="setup-btn-skip">跳过</button>
-                    <button class="modal-btn modal-btn-primary" id="setup-btn-finish">
-                        <i class="fas fa-check"></i> 完成
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ③ 时间选择弹窗 -->
-    <div class="companion-modal" id="time-modal">
-        <div class="modal-content companion-time-content">
-            <div class="modal-title">
-                <i id="time-modal-icon" class="fas fa-book-open"></i>
-                <span id="time-modal-title">陪我学习</span>
-            </div>
-            <p class="companion-setup-desc">选择本次陪伴时长</p>
-            <div id="time-options-grid" class="companion-time-grid"></div>
-            <div class="modal-buttons">
-                <button class="modal-btn modal-btn-secondary" id="time-modal-close">取消</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ④ 全屏陪伴页面 -->
-    <div id="companion-page" class="companion-page">
-        <div id="companion-bg-container" class="companion-bg-container"></div>
-        <div class="companion-overlay"></div>
-
-        <!-- 左上角退出 -->
-        <button id="companion-exit-btn" class="companion-ctrl-btn companion-exit-corner">
-            <i class="fas fa-xmark"></i>
-        </button>
-
-        <!-- 右上角玻璃球计时器 -->
-        <div id="companion-timer-area" class="companion-timer-glass">
-            <div id="companion-timer-display" class="companion-timer-display">00:00</div>
-            <div id="companion-timer-label" class="companion-timer-label">STUDY</div>
-            <div class="companion-timer-dots">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
-
-        <!-- 底部场景提示 -->
-        <div class="companion-hint-bottom">
-            <span id="companion-hint-text">正在一起学习 · 加油</span>
-        </div>
-
-        <!-- ✦ 右下角背景音按钮 ✦ -->
-        <button id="companion-noise-btn" class="companion-ctrl-btn companion-noise-corner" title="背景音">
-            <i class="fas fa-music"></i>
-        </button>
-
-        <!-- ✦ 右下角对话历史按钮 ✦ -->
-        <button id="companion-history-btn" class="companion-ctrl-btn companion-history-corner" title="本次对话">
-            <i class="fas fa-comment-dots"></i>
-        </button>
-
-        <!-- ✦ 右下角键盘按钮（切换输入区） ✦ -->
-        <button id="companion-keyboard-btn" class="companion-ctrl-btn companion-keyboard-corner" title="发消息">
-            <i class="fas fa-keyboard"></i>
-        </button>
-
-        <!-- ✦ 陪伴输入区（默认隐藏） ✦ -->
-        <div id="companion-input-bar" class="companion-input-bar">
-            <input type="text" id="companion-input-field" class="companion-input-field" placeholder="说点什么吧…" maxlength="500">
-            <button id="companion-emoji-btn" class="companion-input-btn" title="表情包">
-                <i class="far fa-smile"></i>
-            </button>
-            <button id="companion-image-btn" class="companion-input-btn" title="图片">
-                <i class="far fa-image"></i>
-            </button>
-        </div>
-
-        <!-- ✦ 梦角气泡容器（点击时浮现） ✦ -->
-        <div id="companion-bubble-area" class="companion-bubble-area"></div>
-
-        <!-- ✦ 梦角正在输入指示器 ✦ -->
-        <div id="companion-typing-indicator" class="companion-typing-indicator">
-            <div class="companion-typing-avatar"><i class="fas fa-user"></i></div>
-            <div class="companion-typing-bubble">
-                <span class="companion-typing-name"></span>
-                <span class="companion-typing-dots">
-                    <span></span><span></span><span></span>
-                </span>
-            </div>
-        </div>
-
-        <div id="companion-exit-confirm" class="companion-exit-confirm">
-            <div class="companion-exit-box">
-                <p>现在就要走了吗？</p>
-                <div class="companion-exit-btns">
-                    <button id="exit-confirm-no" class="modal-btn modal-btn-secondary">再陪一会儿</button>
-                    <button id="exit-confirm-yes" class="modal-btn modal-btn-primary">下次见</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ========== / 陪伴功能弹窗 ========== -->
+    <!-- 陪伴系统已移除 -->
 
     <div class="modal" id="appearance-modal">
         <div class="modal-content">
@@ -1391,7 +1229,7 @@ html[data-theme="dark"] #cs-transition-overlay{background:radial-gradient(circle
         <i class="fas fa-paint-roller"></i><span>主题配色</span>
     </div>
     <div class="settings-card" onclick="showAppearancePanel('font-bg')" style="cursor:pointer;">
-        <i class="fas fa-image"></i><span>背景 & 陪伴</span>
+        <i class="fas fa-image"></i><span>背景</span>
     </div>
     <div class="settings-card" onclick="showAppearancePanel('bubble-css')" style="cursor:pointer;">
         <i class="fas fa-font"></i><span>字体 & 气泡</span>
@@ -1501,58 +1339,6 @@ html[data-theme="dark"] #cs-transition-overlay{background:radial-gradient(circle
             </div>
         </div>
 
-        <!-- 陪伴背景管理 -->
-        <div class="settings-section" id="companion-bg-section">
-            <div class="settings-section-title">
-                <i class="fas fa-hand-holding-heart"></i>陪伴背景
-                <input type="file" id="companion-bg-upload-input" accept="image/*,video/*" style="display:none;">
-            </div>
-            <div style="font-size:11px;color:var(--text-secondary);margin-bottom:8px;opacity:0.75;line-height:1.5;">
-                每个场景独立设置背景，支持图片和视频。点击 <i class="fas fa-plus" style="font-size:10px;"></i> 添加。
-            </div>
-            <div class="companion-mgr-tabs" id="companion-bg-tabs" data-mgr="bg">
-                <button class="companion-mgr-tab active" data-mode="study"><i class="fas fa-book-open"></i><span>学习</span></button>
-                <button class="companion-mgr-tab" data-mode="work"><i class="fas fa-laptop-code"></i><span>工作</span></button>
-                <button class="companion-mgr-tab" data-mode="exercise"><i class="fas fa-person-running"></i><span>运动</span></button>
-                <button class="companion-mgr-tab" data-mode="sleep"><i class="fas fa-moon"></i><span>睡觉</span></button>
-            </div>
-            <div class="companion-mgr-list" id="companion-bg-list"></div>
-        </div>
-
-        <!-- 陪伴日记背景 -->
-        <div class="settings-section" id="diary-bg-section">
-            <div class="settings-section-title">
-                <i class="fas fa-book"></i>陪伴日记背景
-                <input type="file" id="diary-bg-input" accept="image/*" style="display:none;">
-            </div>
-            <div style="font-size:11px;color:var(--text-secondary);margin-bottom:8px;opacity:0.75;line-height:1.5;">
-                日记页面的纸张背景。点击 <i class="fas fa-plus" style="font-size:10px;"></i> 添加，点击项目应用。
-            </div>
-            <div class="bg-gallery" id="diary-bg-list"></div>
-            <div style="text-align: center; margin-top: 10px;">
-                <button class="modal-btn modal-btn-secondary" id="diary-bg-reset" style="font-size: 12px; padding: 6px 12px;">
-                    <i class="fas fa-undo"></i> 恢复默认背景
-                </button>
-            </div>
-        </div>
-
-        <!-- 陪伴音乐管理 -->
-        <div class="settings-section" id="companion-noise-section">
-            <div class="settings-section-title">
-                <i class="fas fa-music"></i>陪伴音乐
-                <input type="file" id="companion-noise-upload-input" accept="*/*" multiple style="display:none;">
-            </div>
-            <div style="font-size:11px;color:var(--text-secondary);margin-bottom:8px;opacity:0.75;line-height:1.5;">
-                每个场景独立设置音乐，陪伴中持续播放。点击 <i class="fas fa-plus" style="font-size:10px;"></i> 添加。
-            </div>
-            <div class="companion-mgr-tabs" id="companion-noise-tabs" data-mgr="noise">
-                <button class="companion-mgr-tab active" data-mode="study"><i class="fas fa-book-open"></i><span>学习</span></button>
-                <button class="companion-mgr-tab" data-mode="work"><i class="fas fa-laptop-code"></i><span>工作</span></button>
-                <button class="companion-mgr-tab" data-mode="exercise"><i class="fas fa-person-running"></i><span>运动</span></button>
-                <button class="companion-mgr-tab" data-mode="sleep"><i class="fas fa-moon"></i><span>睡觉</span></button>
-            </div>
-            <div class="companion-mgr-list" id="companion-noise-list"></div>
-        </div>
     </div>
 
     <div id="appearance-panel-bubble" class="appearance-sub-panel" style="display:none;">
@@ -2365,10 +2151,7 @@ html[data-theme="dark"] #cs-transition-overlay{background:radial-gradient(circle
                         <i class="fas fa-balance-scale"></i>
                         <span>抉择</span>
                     </div>
-                    <div class="settings-item" id="companion-diary-function">
-                        <i class="fas fa-book"></i><span>陪伴日记</span>
-                    </div>
-                    <div class="settings-item" id="music-player-toggle">
+<div class="settings-item" id="music-player-toggle">
                         <i class="fas fa-music"></i><span>悬浮音乐播放器</span>
                     </div>
                     <div class="settings-item" id="period-function">
@@ -3452,138 +3235,7 @@ html[data-theme="dark"] #cs-transition-overlay{background:radial-gradient(circle
 
 <div id="dg-editor-modal" style="display:none;"></div>
 
-<!-- 陪伴日记 modal -->
-<div class="modal" id="companion-diary-modal">
-    <div class="modal-content cd-modal-content">
-        <!-- 头部 -->
-        <div class="cd-header">
-            <div class="cd-title">
-                <i class="fas fa-book"></i>
-                <span>陪伴日记</span>
-            </div>
-            <div class="cd-header-actions">
-                <button class="cd-stats-btn" id="cd-stats-btn">
-                    <i class="fas fa-chart-pie"></i><span>统计</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- 工具栏：月份选择 + 筛选 -->
-        <div class="cd-toolbar">
-            <div class="cd-month-display" id="cd-month-display">
-                <span id="cd-month-text">2025年6月</span>
-                <i class="fas fa-chevron-down"></i>
-            </div>
-            <div class="cd-filters">
-                <div class="cd-chip" id="cd-chip-mode">
-                    <span id="cd-chip-mode-label">种类</span>
-                    <i class="fas fa-chevron-down"></i>
-                    <div class="cd-dropdown" id="cd-dropdown-mode">
-                        <div class="cd-dropdown-item" data-val="all">全部</div>
-                        <div class="cd-dropdown-item" data-val="study">学习</div>
-                        <div class="cd-dropdown-item" data-val="work">工作</div>
-                        <div class="cd-dropdown-item" data-val="exercise">运动</div>
-                        <div class="cd-dropdown-item" data-val="sleep">睡觉</div>
-                    </div>
-                </div>
-                <div class="cd-chip" id="cd-chip-init">
-                    <span id="cd-chip-init-label">邀请</span>
-                    <i class="fas fa-chevron-down"></i>
-                    <div class="cd-dropdown" id="cd-dropdown-init">
-                        <div class="cd-dropdown-item" data-val="all">全部</div>
-                        <div class="cd-dropdown-item" data-val="partner" data-name-partner>梦角邀请</div>
-                        <div class="cd-dropdown-item" data-val="user" data-name-me>我邀请</div>
-                        <div class="cd-dropdown-item" data-val="missed" data-name-missed>我错过了</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 月历弹出层 -->
-        <div class="cd-cal-popup" id="cd-cal-popup">
-            <div class="cd-cal-year">
-                <button class="cd-cal-year-btn" id="cd-cal-prev-year"><i class="fas fa-chevron-left"></i></button>
-                <span class="cd-cal-year-label" id="cd-cal-year-label">2025</span>
-                <button class="cd-cal-year-btn" id="cd-cal-next-year"><i class="fas fa-chevron-right"></i></button>
-            </div>
-            <div class="cd-cal-months" id="cd-cal-months"></div>
-        </div>
-
-        <!-- 日记本主体 -->
-        <div class="cd-body">
-            <div class="cd-spine">
-                <div class="cd-ring-wrap"><div class="cd-ring-back"></div><div class="cd-ring-front"></div></div>
-                <div class="cd-ring-wrap"><div class="cd-ring-back"></div><div class="cd-ring-front"></div></div>
-                <div class="cd-ring-wrap"><div class="cd-ring-back"></div><div class="cd-ring-front"></div></div>
-                <div class="cd-ring-wrap"><div class="cd-ring-back"></div><div class="cd-ring-front"></div></div>
-                <div class="cd-ring-wrap"><div class="cd-ring-back"></div><div class="cd-ring-front"></div></div>
-                <div class="cd-ring-wrap"><div class="cd-ring-back"></div><div class="cd-ring-front"></div></div>
-            </div>
-            <div class="cd-pages" id="cd-pages">
-                <!-- JS 渲染日记条目 -->
-            </div>
-        </div>
-
-        <!-- 统计视图（默认隐藏） -->
-        <div class="cd-stats-view" id="cd-stats-view">
-            <div class="cd-stats-back" id="cd-stats-back">
-                <i class="fas fa-arrow-left"></i><span>返回日记</span>
-            </div>
-            <div class="cd-stats-body">
-                <div class="cd-totals">
-                    <div class="cd-total-card">
-                        <div class="cd-total-num" id="cd-total-count">0</div>
-                        <div class="cd-total-label">累计陪伴次数</div>
-                    </div>
-                    <div class="cd-total-card">
-                        <div class="cd-total-num" id="cd-total-duration">0min</div>
-                        <div class="cd-total-label">累计陪伴时长</div>
-                    </div>
-                </div>
-                <div class="cd-chart-section">
-                    <div class="cd-chart-title">邀请来源</div>
-                    <div class="cd-pie-wrap">
-                        <canvas id="cd-pie-init" width="120" height="120"></canvas>
-                        <div class="cd-legend" id="cd-legend-init"></div>
-                    </div>
-                </div>
-                <div class="cd-chart-section">
-                    <div class="cd-chart-title">种类分布</div>
-                    <div class="cd-pie-wrap">
-                        <canvas id="cd-pie-mode" width="120" height="120"></canvas>
-                        <div class="cd-legend" id="cd-legend-mode"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 关闭按钮 -->
-        <!-- 陪伴日记外层容器 .cd-modal-content 本身 padding:0（自己整个卡片式设计），
-             不像大多数弹窗默认padding:24px，所以这里不用"负margin撑满再padding回来"那套技巧，
-             直接在这个按钮条上加左右安全区padding就行，不然会跟其他弹窗一样越界被裁切、贴到屏幕边缘 -->
-        <div class="modal-buttons" style="position:sticky;bottom:0;background:var(--secondary-bg);border-top:1px solid var(--border-color);padding:12px max(24px, env(safe-area-inset-right, 24px)) max(14px, env(safe-area-inset-bottom, 0px)) max(24px, env(safe-area-inset-left, 24px));z-index:10;margin-top:8px;">
-            <button class="modal-btn modal-btn-secondary" id="cd-back-btn" onclick="(function(){hideModal(document.getElementById('companion-diary-modal'));showModal(document.getElementById('advanced-modal'))})()">
-                <i class="fas fa-arrow-left"></i> 返回
-            </button>
-            <button class="modal-btn modal-btn-secondary" id="close-companion-diary">关闭</button>
-        </div>
-    </div>
-</div>
-
-<!-- 备注编辑弹层 -->
-<div class="modal" id="cd-note-edit-modal">
-    <div class="modal-content" style="max-width:340px;">
-        <div class="modal-title">
-            <i class="fas fa-pen"></i><span>编辑备注</span>
-        </div>
-        <div id="cd-note-edit-info" style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;"></div>
-        <textarea class="modal-textarea" id="cd-note-edit-textarea" rows="4" placeholder="今天和梦角的陪伴时光，想记下点什么…" style="margin-bottom:8px;"></textarea>
-        <div class="modal-buttons" style="padding-top:8px;">
-            <button class="modal-btn modal-btn-secondary" id="cd-note-edit-cancel">取消</button>
-            <button class="modal-btn modal-btn-primary" id="cd-note-edit-save">保存</button>
-        </div>
-    </div>
-</div>
+<!-- 陪伴日记功能已移除 -->
 
     <!-- == 核心层 == -->
     <script src="js/config.js"></script>
@@ -3613,8 +3265,6 @@ html[data-theme="dark"] #cs-transition-overlay{background:radial-gradient(circle
     <script src="js/listeners-step2.js"></script>
     <script src="js/listeners-voice.js"></script>
     <script src="js/listeners-sticker.js"></script>
-    <script src="js/features/companion.js"></script>
-    <script src="js/features/companion-diary.js"></script>
     <script src="js/features/voice-tts.js"></script>
     <script src="js/cloud-sync.js"></script>
     <script src="js/cloud-sync-engine.js"></script>
