@@ -4,7 +4,6 @@
  * 需求：梦角在主聊天发新消息时，只要用户不在下面这几种情况里，就在当前页面顶部弹一条横条：
  *   1）用户当前就在主聊天本身（消息本来就实时显示在眼前，不需要再弹）
  *   2）陪伴模式（陪伴页里本来就会同步显示气泡）
- *   3）电影院沉浸模式（全屏剧场，本来就在这个聊天场景里）
  * 反过来，下面这些"盖在主聊天上面的弹窗"要弹（弹窗盖住了聊天，用户看不到新消息）：
  *   设置弹窗、信箱弹窗、情侣空间设置弹窗、还没进陪伴页之前的陪伴邀请弹窗……等等，
  *   不一一列举，走的是"当前有没有弹窗盖在上面"这个通用判断。
@@ -50,15 +49,13 @@
         return false;
     }
 
-    // 判断要不要弹：陪伴模式/电影院沉浸模式不弹；有弹窗盖在上面（不管是不是在情侣空间里点出来的）要弹；
+    // 判断要不要弹：陪伴模式不弹；有弹窗盖在上面（不管是不是在情侣空间里点出来的）要弹；
     // 情侣空间开着（非沉浸模式）要弹；剩下的（主聊天本身可见、什么弹窗都没开）不弹。
     function _shouldShow() {
         var companionPage = document.getElementById('companion-page');
         if (companionPage && companionPage.classList.contains('active')) return false;
 
         var csPage = document.getElementById('couple-space-page');
-        if (csPage && csPage.classList.contains('cinema-theater-mode')) return false;
-
         if (_isAnyModalOpen()) return true;
         if (csPage && csPage.classList.contains('cs-open')) return true;
         return false;
